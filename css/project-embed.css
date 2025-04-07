@@ -1,0 +1,304 @@
+/* Project Embed Styles */
+.project-embed {
+    display: none;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.project-card:target .project-embed {
+    display: block;
+}
+
+.embed-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.embed-title {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.embed-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.embed-control-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.embed-control-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.embed-tabs {
+    display: flex;
+    background-color: #eaeaea;
+    border-bottom: 1px solid #ddd;
+}
+
+.embed-tab {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.embed-tab:hover {
+    background-color: #f0f0f0;
+}
+
+.embed-tab.active {
+    background-color: #fff;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.embed-panel {
+    padding: 20px;
+    display: none;
+    background-color: white;
+}
+
+.embed-panel.active {
+    display: block;
+}
+
+/* Rowing Analytics Specific Styles */
+.rowing-chart-container {
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+.rowing-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.rowing-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    flex: 1;
+}
+
+.rowing-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rowing-table th, 
+.rowing-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.rowing-table th {
+    background-color: #f2f2f2;
+}
+
+/* Greek Conjugator Specific Styles */
+.greek-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.greek-input-group {
+    margin-bottom: 15px;
+}
+
+.greek-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.greek-select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.greek-result {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.greek-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.greek-table th, 
+.greek-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.greek-table th {
+    background-color: #f2f2f2;
+}
+
+/* NLP Task Scheduler Specific Styles */
+.nlp-form {
+    margin-bottom: 20px;
+}
+
+.nlp-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-family: inherit;
+    font-size: 16px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.nlp-submit {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.nlp-submit:hover {
+    background-color: var(--primary-color);
+}
+
+.task-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 4px;
+    border-left: 4px solid var(--accent-color);
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.task-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.task-date {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.task-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.task-detail {
+    background-color: #f2f2f2;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .rowing-controls,
+    .greek-form {
+        flex-direction: column;
+    }
+    
+    .embed-tab {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .embed-panel {
+        padding: 15px;
+    }
+}
+
+/* Additional CSS for Greek Conjugator multiple choice practice */
+.greek-option-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.greek-option-btn:hover {
+    background-color: #e9ecef;
+}
+
+.greek-option-btn:disabled {
+    cursor: default;
+}
+
+.correct-answer {
+    background-color: rgba(40, 167, 69, 0.2);
+    border-color: #28a745;
+}
+
+.incorrect-answer {
+    background-color: rgba(220, 53, 69, 0.2);
+    border-color: #dc3545;
+}
+
+.feedback-correct {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    padding: 10px;
+    border-radius: 4px;
+    border-left: 4px solid #28a745;
+}
+
+.feedback-incorrect {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    padding: 10px;
+    border-radius: 4px;
+    border-left: 4px solid #dc3545;
+}
+
+/* Responsive adjustments for Greek Conjugator */
+@media screen and (max-width: 768px) {
+    #greek-options-container {
+        grid-template-columns: 1fr !important;
+    }
+}

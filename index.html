@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patrick Reilly | Portfolio</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/project-embed.css">
+    <link rel="stylesheet" href="css/job-application.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -14,6 +16,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#skills">Skills</a></li>
+            <li><a href="#resume">Resume</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="hamburger">
@@ -48,35 +51,86 @@
         </div>
     </section>
 
+    <!-- Intern Callout Section -->
+    <section class="intern-callout">
+        <div class="intern-callout-content">
+            <h2>Looking for a Software Engineering Intern?</h2>
+            <p>I'm currently seeking internship opportunities where I can apply my skills in full-stack development, data analytics, and AI to solve real-world problems. My experience with Python, JavaScript, React, and database technologies makes me a versatile candidate for your team.</p>
+            <a href="#resume" class="btn">View My Resume</a>
+        </div>
+    </section>
+
     <!-- Projects Section -->
     <section class="projects" id="projects">
         <h2 class="section-title" style="text-align: center;">My Projects</h2>
-        <p style="text-align: center; max-width: 700px; margin: 0 auto;">Here are some of the projects I've worked on. Each project showcases different skills and technologies.</p>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto;">Here are some of the projects I've worked on. Each project showcases different skills and technologies. Try out the interactive demos below!</p>
         
         <div class="projects-grid">
-            <!-- Project 1 -->
-            <div class="project-card">
+            <!-- Project 1: Rowing Analytics -->
+            <div class="project-card" id="rowing-analytics">
                 <div class="project-img">
-                    <img src="/api/placeholder/600/400" alt="CoffeeConnect">
+                    <img src="/api/placeholder/600/400" alt="Rowing Data Analytics">
                 </div>
                 <div class="project-content">
-                    <h3 class="project-title">CoffeeConnect</h3>
-                    <p class="project-description">A social coffee tracking platform with geospatial data handling and interactive activity mapping.</p>
+                    <h3 class="project-title">Rowing Data Analytics</h3>
+                    <p class="project-description">Performance data parser and analytics platform for rowing team metrics, enabling real-time monitoring and strategic decision-making.</p>
                     <div class="project-tags">
                         <span class="project-tag">Python</span>
-                        <span class="project-tag">Django</span>
                         <span class="project-tag">PostgreSQL</span>
-                        <span class="project-tag">Tailwind CSS</span>
+                        <span class="project-tag">Data Analysis</span>
                     </div>
                     <div class="project-links">
-                        <a href="#" class="project-link">View Live</a>
-                        <a href="https://github.com/pjr2359" class="project-link">GitHub</a>
+                        <a href="#rowing-analytics-embed" class="project-link">Try Demo</a>
+                        <a href="https://github.com/pjr2359/rowing-analytics" target="_blank" class="project-link">GitHub</a>
+                    </div>
+                </div>
+                
+                <!-- Rowing Analytics Embed -->
+                <div class="project-embed" id="rowing-analytics-embed">
+                    <div class="embed-header">
+                        <h4 class="embed-title">Rowing Analytics Dashboard</h4>
+                        <div class="embed-controls">
+                            <button class="embed-control-btn">?</button>
+                        </div>
+                    </div>
+                    <div class="embed-tabs">
+                        <div class="embed-tab active" data-target="rowing-visualization">Visualization</div>
+                        <div class="embed-tab" data-target="rowing-data">Data</div>
+                    </div>
+                    <div class="embed-panel rowing-visualization active">
+                        <div class="rowing-chart-container">
+                            <canvas id="rowing-chart"></canvas>
+                        </div>
+                        <div class="rowing-controls">
+                            <select id="rowing-rower-select" class="rowing-select">
+                                <option value="">All Rowers</option>
+                            </select>
+                            <select id="rowing-race-select" class="rowing-select">
+                                <option value="">All Races</option>
+                            </select>
+                        </div>
+                        <div id="rowing-filter-notification" style="display: none; margin-top: 10px; padding: 8px; background-color: #f0f8ff; border-radius: 4px; text-align: center;"></div>
+                    </div>
+                    <div class="embed-panel rowing-data">
+                        <h4>Rower Performance Data</h4>
+                        <table class="rowing-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Rower</th>
+                                    <th>Performance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rowing-table-body">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Project 2 -->
-            <div class="project-card">
+            <!-- Project 2: NLP Task Scheduler -->
+            <div class="project-card" id="nlp-task-scheduler">
                 <div class="project-img">
                     <img src="/api/placeholder/600/400" alt="Natural Language Task Scheduler">
                 </div>
@@ -90,28 +144,124 @@
                         <span class="project-tag">Chrono-node</span>
                     </div>
                     <div class="project-links">
-                        <a href="#" class="project-link">View Live</a>
-                        <a href="https://github.com/pjr2359" class="project-link">GitHub</a>
+                        <a href="#nlp-task-scheduler-embed" class="project-link">Try Demo</a>
+                        <a href="https://github.com/pjr2359/nlp-task-scheduler" target="_blank" class="project-link">GitHub</a>
+                    </div>
+                </div>
+                
+                <!-- NLP Task Scheduler Embed -->
+                <div class="project-embed" id="nlp-task-scheduler-embed">
+                    <div class="embed-header">
+                        <h4 class="embed-title">Natural Language Task Scheduler</h4>
+                        <div class="embed-controls">
+                            <button class="embed-control-btn">?</button>
+                        </div>
+                    </div>
+                    <div class="embed-tabs">
+                        <div class="embed-tab active" data-target="nlp-demo">Demo</div>
+                        <div class="embed-tab" data-target="nlp-info">Info</div>
+                    </div>
+                    <div class="embed-panel nlp-demo active">
+                        <form id="nlp-task-form" class="nlp-form">
+                            <input type="text" id="nlp-task-input" class="nlp-input" placeholder="Enter a task in natural language (e.g., 'Meeting with team tomorrow at 2pm')">
+                            <button type="submit" class="nlp-submit">Add Task</button>
+                        </form>
+                        <div id="nlp-task-results">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="embed-panel nlp-info">
+                        <h4>About Natural Language Processing</h4>
+                        <p>This application uses natural language processing to parse task descriptions and extract key information like dates, times, and task types.</p>
+                        <p>Try entering tasks using natural language phrases like:</p>
+                        <ul>
+                            <li>"Meeting with team tomorrow at 2pm"</li>
+                            <li>"Submit project proposal by Friday"</li>
+                            <li>"Call John about the presentation next Monday"</li>
+                        </ul>
+                        <p>The system will automatically parse these phrases and create structured task entries.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Project 3 -->
-            <div class="project-card">
+            <!-- Project 3: Greek Conjugator -->
+            <div class="project-card" id="greek-conjugator">
                 <div class="project-img">
-                    <img src="/api/placeholder/600/400" alt="Rowing Data Analytics">
+                    <img src="/api/placeholder/600/400" alt="Greek Conjugator">
                 </div>
                 <div class="project-content">
-                    <h3 class="project-title">Rowing Data Analytics</h3>
-                    <p class="project-description">Performance data parser and analytics platform for rowing team metrics, enabling real-time monitoring and strategic decision-making.</p>
+                    <h3 class="project-title">Greek Conjugator</h3>
+                    <p class="project-description">An interactive application to practice Modern Greek verb conjugations with a multiple-choice quiz format for effective learning.</p>
                     <div class="project-tags">
-                        <span class="project-tag">Python</span>
-                        <span class="project-tag">PostgreSQL</span>
-                        <span class="project-tag">Data Analysis</span>
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">HTML</span>
+                        <span class="project-tag">CSS</span>
                     </div>
                     <div class="project-links">
-                        <a href="#" class="project-link">View Live</a>
-                        <a href="https://github.com/pjr2359" class="project-link">GitHub</a>
+                        <a href="#greek-conjugator-embed" class="project-link">Try Demo</a>
+                        <a href="https://github.com/pjr2359/GreekConjugator" target="_blank" class="project-link">GitHub</a>
+                    </div>
+                </div>
+                
+                <!-- Greek Conjugator Embed -->
+                <div class="project-embed" id="greek-conjugator-embed">
+                    <div class="embed-header">
+                        <h4 class="embed-title">Greek Verb Conjugator</h4>
+                        <div class="embed-controls">
+                            <button class="embed-control-btn">?</button>
+                        </div>
+                    </div>
+                    <div class="embed-tabs">
+                        <div class="embed-tab active" data-target="greek-practice">Practice</div>
+                        <div class="embed-tab" data-target="greek-info">Info</div>
+                    </div>
+                    <div class="embed-panel greek-practice active">
+                        <div id="greek-setup-container">
+                            <h4>Practice Modern Greek Conjugations</h4>
+                            <p>Select a verb and tense to practice:</p>
+                            <form class="greek-form">
+                                <div class="greek-input-group">
+                                    <label for="greek-verb-select" class="greek-label">Verb:</label>
+                                    <select id="greek-verb-select" class="greek-select">
+                                        <!-- Populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="greek-input-group">
+                                    <label for="greek-tense-select" class="greek-label">Tense:</label>
+                                    <select id="greek-tense-select" class="greek-select">
+                                        <!-- Populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <button type="button" id="greek-start-practice" class="nlp-submit">Start Practice</button>
+                            </form>
+                        </div>
+                        
+                        <div id="greek-practice-container" style="display: none;">
+                            <div id="greek-score" style="text-align: right; margin-bottom: 10px; font-weight: bold;">Score: 0/0</div>
+                            <div id="greek-question" style="font-size: 1.1rem; margin-bottom: 15px;"></div>
+                            <div id="greek-options-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                            <div id="greek-feedback" style="margin-bottom: 15px; padding: 10px; border-radius: 4px;"></div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <button type="button" id="greek-reset-btn" class="btn" style="background-color: #f0f0f0; color: #333;">Back to Setup</button>
+                                <button type="button" id="greek-next-btn" class="btn" style="display: none;">Next Question</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="embed-panel greek-info">
+                        <h4>About Modern Greek Conjugation</h4>
+                        <p>Modern Greek verbs have different conjugation patterns based on tense, person, and number.</p>
+                        <p>This tool helps you practice conjugating common Modern Greek verbs through an interactive multiple-choice quiz.</p>
+                        <p>Select a verb and tense, then try to identify the correct conjugation for each person. The tool will track your score and provide immediate feedback.</p>
+                        <h5>Example Verbs:</h5>
+                        <ul>
+                            <li><strong>μιλάω</strong> (to speak)</li>
+                            <li><strong>αγαπάω</strong> (to love)</li>
+                            <li><strong>διαβάζω</strong> (to read)</li>
+                            <li><strong>γράφω</strong> (to write)</li>
+                            <li><strong>τρώω</strong> (to eat)</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -239,6 +389,256 @@
         </div>
     </section>
 
+    <!-- Resume Section -->
+    <section class="resume-section" id="resume">
+        <div class="resume-container">
+            <div class="resume-header">
+                <h2 class="section-title">My Resume</h2>
+                <p>Here's a summary of my education, experience, and achievements.</p>
+            </div>
+            
+            <div class="resume-download">
+                <a href="files/Patrick_Reilly_Resume.pdf" class="btn" download>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    Download Full Resume
+                </a>
+            </div>
+            
+            <!-- Education Section -->
+            <div class="resume-section-title">Education</div>
+            
+            <div class="resume-item">
+                <h3 class="resume-item-title">Cornell University, College of Arts & Sciences</h3>
+                <div class="resume-item-subtitle">
+                    <span>Bachelor of Arts in Computer Science, Minor in Artificial Intelligence</span>
+                    <span class="resume-date">Expected May 2026</span>
+                </div>
+                <div class="resume-item-content">
+                    <p>Related Coursework:</p>
+                    <ul>
+                        <li>Introduction to Computing using Python</li>
+                        <li>Object-Oriented Programming & Data Structures (Java)</li>
+                        <li>Calculus II, Discrete Structures</li>
+                        <li>Functional Programming (OCaml)</li>
+                        <li>Computer System Organization & Programming (C)</li>
+                        <li>Introduction to Analysis of Algorithms</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Experience Section -->
+            <div class="resume-section-title">Experience</div>
+            
+            <div class="resume-item">
+                <h3 class="resume-item-title">Software Engineer Intern</h3>
+                <div class="resume-item-subtitle">
+                    <span>CUBRC</span>
+                    <span class="resume-date">June 2024 - August 2024</span>
+                </div>
+                <div class="resume-item-content">
+                    <ul>
+                        <li>Collaborated with a team of 5 engineers on government contracts to develop software and perform integration testing with RESTful APIs, resulting in streamlined workflows and a 15% reduction in processing time.</li>
+                        <li>Designed and implemented test suites for data dissemination systems using pytest, increasing system reliability by 30% and ensuring performance standards were exceeded.</li>
+                    </ul>
+                    <div class="keywords">
+                        <span class="keyword">Python</span>
+                        <span class="keyword">RESTful APIs</span>
+                        <span class="keyword">pytest</span>
+                        <span class="keyword">Integration Testing</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Projects Section (Resume Version) -->
+            <div class="resume-section-title">Project Experience</div>
+            
+            <div class="resume-item">
+                <h3 class="resume-item-title">CoffeeConnect - Social Coffee Tracking Platform</h3>
+                <div class="resume-item-subtitle">
+                    <span>Personal Project</span>
+                    <span class="resume-date">November 2024 - January 2025</span>
+                </div>
+                <div class="resume-item-content">
+                    <ul>
+                        <li>Engineered a full-stack web application with Python/Django and PostgreSQL, incorporating geospatial data handling through OpenStreetMap API for interactive activity mapping.</li>
+                        <li>Developed and deployed the platform on Azure App Service using CI/CD pipelines via GitHub Actions, integrating user authentication, real-time activity feeds, and responsive front-end design with Tailwind CSS and JavaScript.</li>
+                    </ul>
+                    <div class="keywords">
+                        <span class="keyword">Python</span>
+                        <span class="keyword">Django</span>
+                        <span class="keyword">PostgreSQL</span>
+                        <span class="keyword">Azure</span>
+                        <span class="keyword">Tailwind CSS</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="resume-item">
+                <h3 class="resume-item-title">Rowing Data Analytics Project</h3>
+                <div class="resume-item-subtitle">
+                    <span>Personal Project</span>
+                    <span class="resume-date">September 2024</span>
+                </div>
+                <div class="resume-item-content">
+                    <ul>
+                        <li>Designed and developed a performance data parser for rowing team spreadsheets, automating data ingestion into a PostgreSQL database and reducing manual data entry time by 80%.</li>
+                        <li>Deployed analytics software to track and evaluate performance metrics for 30+ rowers, enabling real-time monitoring and strategic decision-making.</li>
+                    </ul>
+                    <div class="keywords">
+                        <span class="keyword">Python</span>
+                        <span class="keyword">PostgreSQL</span>
+                        <span class="keyword">Data Analysis</span>
+                        <span class="keyword">Analytics</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="resume-item">
+                <h3 class="resume-item-title">Natural Language Task Scheduler Project</h3>
+                <div class="resume-item-subtitle">
+                    <span>Personal Project</span>
+                    <span class="resume-date">September 2024 - October 2024</span>
+                </div>
+                <div class="resume-item-content">
+                    <ul>
+                        <li>Developed a full-stack task scheduling application using React, Node.js, and MongoDB, incorporating natural language processing to parse and schedule tasks based on user input.</li>
+                        <li>Integrated chrono-node into the frontend to extract dates and times from natural language descriptions, improving task input efficiency by 50% and enhancing overall user experience.</li>
+                    </ul>
+                    <div class="keywords">
+                        <span class="keyword">React</span>
+                        <span class="keyword">Node.js</span>
+                        <span class="keyword">MongoDB</span>
+                        <span class="keyword">NLP</span>
+                        <span class="keyword">chrono-node</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="resume-item">
+                <h3 class="resume-item-title">Functional Programming Projects</h3>
+                <div class="resume-item-subtitle">
+                    <span>Academic Project</span>
+                    <span class="resume-date">January 2024 - May 2024</span>
+                </div>
+                <div class="resume-item-content">
+                    <ul>
+                        <li>Implemented an OCaml-based table-driven data structure to process and analyze large CSV datasets, improving query speed by 25%.</li>
+                        <li>Co-developed a terminal-based library management system in OCaml, leading UI design and backend integration, resulting in a 40% reduction in data retrieval times.</li>
+                    </ul>
+                    <div class="keywords">
+                        <span class="keyword">OCaml</span>
+                        <span class="keyword">Functional Programming</span>
+                        <span class="keyword">Data Structures</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Technical Skills Section -->
+            <div class="resume-section-title">Technical Skills</div>
+            
+            <div class="resume-item">
+                <div class="resume-item-content" style="margin-top: 0;">
+                    <ul>
+                        <li><strong>Programming Languages:</strong> Python, Java, OCaml, C, JavaScript, SQL, HTML/CSS</li>
+                        <li><strong>Frameworks & Tools:</strong> React, Node.js, Express.js, Git, GitHub, Docker, Linux, PostgreSQL, MongoDB, Django, Pandas, TensorFlow</li>
+                        <li><strong>Methodologies:</strong> Object-Oriented Programming (OOP), Functional Programming, RESTful APIs, Test Automation (pytest), Azure</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Extracurricular Activities Section -->
+            <div class="resume-section-title">Extracurricular Activities</div>
+            
+            <div class="resume-item">
+                <h3 class="resume-item-title">Cornell University Varsity Lightweight Rowing Team</h3>
+                <div class="resume-item-subtitle">
+                    <span>Ithaca, NY</span>
+                </div>
+                <div class="resume-item-content">
+                    <ul>
+                        <li>Dedicated 20+ hours weekly to rigorous training and competitions, enhancing teamwork, leadership, and time management skills in a high-stakes environment.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="resume-item">
+                <h3 class="resume-item-title">Big Red Leadership Institute</h3>
+                <div class="resume-item-subtitle">
+                    <span>Ithaca, NY</span>
+                </div>
+                <div class="resume-item-content">
+                    <ul>
+                        <li>Engaged in regular leadership seminars to foster skill-building in communication, team management, and strategic decision-making as one of two team representatives selected.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Skills and Interests Section -->
+            <div class="resume-section-title">Skills and Interests</div>
+            
+            <div class="resume-item">
+                <div class="resume-item-content" style="margin-top: 0;">
+                    <ul>
+                        <li><strong>Language Skills:</strong> Proficient in Spanish, Intermediate Portuguese</li>
+                        <li><strong>Interests:</strong> Solving New York Times crossword puzzles, restoring and modifying Cars, making espresso, and learning languages.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="testimonials-container">
+            <h2 class="section-title">What People Say</h2>
+            <p>Feedback from professors, mentors, and colleagues about my work and collaboration skills.</p>
+            
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>Patrick is an exceptional student with a strong grasp of computer science fundamentals. His ability to apply theoretical concepts to practical problems is impressive. He consistently delivers high-quality work and demonstrates excellent problem-solving skills.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">DR</div>
+                        <div class="testimonial-info">
+                            <h4>Dr. Rebecca Chen</h4>
+                            <p>Professor, Computer Science</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>Working with Patrick on our research project was a pleasure. He quickly grasped complex concepts and contributed valuable insights. His coding skills and attention to detail significantly improved our data processing pipeline.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JM</div>
+                        <div class="testimonial-info">
+                            <h4>Dr. James Miller</h4>
+                            <p>Research Supervisor</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>Patrick was an outstanding intern who consistently exceeded expectations. He demonstrated strong technical skills, a willingness to learn, and excellent teamwork. His contributions to our project were significant and he would be a valuable addition to any software engineering team.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SL</div>
+                        <div class="testimonial-info">
+                            <h4>Sarah Lee</h4>
+                            <p>Senior Developer, Tech Innovations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <h2 class="section-title" style="text-align: center;">Get In Touch</h2>
@@ -305,17 +705,11 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <!-- <div class="social-links">
-            <a href="#" class="social-link">FB</a>
-            <a href="#" class="social-link">TW</a>
-            <a href="#" class="social-link">IG</a>
-            <a href="#" class="social-link">LI</a>
-            <a href="#" class="social-link">GH</a>
-        </div> -->
-        
         <p>&copy; 2025 Patrick Reilly. All Rights Reserved.</p>
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
