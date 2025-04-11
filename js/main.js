@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize all interactive elements
     initNavigation();
     initProjectEmbeds();
-    initRowingAnalytics();
-    initGreekConjugator();
-    initNLPTaskScheduler();
+    //initRowingAnalytics();
+    //initGreekConjugator();
+    //initNLPTaskScheduler();
+    initProjectLazyLoading();
+    initAccessibility();
+    initContactForm();
 });
 
 // Navigation functionality
@@ -590,6 +593,7 @@ function initGreekConjugator() {
     function startPractice() {
         const verbSelect = document.getElementById('greek-verb-select');
         const tenseSelect = document.getElementById('greek-tense-select');
+        const modeSelect = document.getElementById('greek-mode-select');
         const practiceContainer = document.getElementById('greek-practice-container');
         const setupContainer = document.getElementById('greek-setup-container');
 
@@ -774,6 +778,119 @@ function initGreekConjugator() {
             [array[i], array[j]] = [array[j], array[i]];
         }
     }
+
+    // Set up random verb button
+    const randomVerbBtn = document.getElementById('greek-random-verb');
+    if (randomVerbBtn) {
+        randomVerbBtn.addEventListener('click', function () {
+            const verbSelect = document.getElementById('greek-verb-select');
+            if (verbSelect) {
+                verbSelect.value = 'random';
+            }
+        });
+    }
+
+    // Function to generate a fill-in-the-blank question
+    function generateFillInBlankQuestion() {
+        const questionElement = document.getElementById('greek-question');
+        const optionsContainer = document.getElementById('greek-options-container');
+
+        if (!questionElement || !optionsContainer) {
+            return;
+        }
+
+        // Clear previous options
+        optionsContainer.innerHTML = '';
+
+        // Randomly select a person
+        const personIndex = Math.floor(Math.random() * persons.length);
+        currentPerson = persons[personIndex];
+
+        // Get correct answer
+        correctAnswer = conjugationPatterns[currentTense][currentVerb][personIndex];
+
+        // Set question text
+        questionElement.textContent = `What is the ${currentTense} tense conjugation of "${currentVerb}" for ${currentPerson}?`;
+
+        // Create input field
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'fill-in-blank-container';
+
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.className = 'greek-input';
+        inputField.placeholder = 'Type your answer...';
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkFillInBlankAnswer(this.value);
+            }
+        });
+
+        const submitButton = document.createElement('button');
+        submitButton.type = 'button';
+        submitButton.className = 'greek-submit-btn';
+        submitButton.textContent = 'Submit';
+        submitButton.addEventListener('click', function () {
+            checkFillInBlankAnswer(inputField.value);
+        });
+
+        inputContainer.appendChild(inputField);
+        inputContainer.appendChild(submitButton);
+        optionsContainer.appendChild(inputContainer);
+
+        // Focus on the input field
+        setTimeout(() => {
+            inputField.focus();
+        }, 100);
+    }
+
+    // Function to check fill-in-the-blank answer
+    function checkFillInBlankAnswer(answer) {
+        const feedbackElement = document.getElementById('greek-feedback');
+        const inputField = document.querySelector('.greek-input');
+        const submitButton = document.querySelector('.greek-submit-btn');
+
+        if (!feedbackElement || !inputField || !submitButton) {
+            return;
+        }
+
+        totalQuestions++;
+
+        // Disable input
+        inputField.disabled = true;
+        submitButton.disabled = true;
+
+        // Check if answer is correct (trim whitespace and ignore case)
+        const userAnswer = answer.trim();
+        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+
+        // Provide feedback
+        if (isCorrect) {
+            feedbackElement.textContent = 'Correct! Well done!';
+            feedbackElement.className = 'feedback-correct';
+            inputField.className = 'greek-input correct-answer';
+            score++;
+        } else {
+            feedbackElement.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
+            feedbackElement.className = 'feedback-incorrect';
+            inputField.className = 'greek-input incorrect-answer';
+        }
+
+        // Update score
+        updateScore();
+
+        // Show next button
+        const nextButton = document.getElementById('greek-next-btn');
+        if (nextButton) {
+            nextButton.style.display = 'block';
+        }
+    }
+
+    // Set up next button
+    const nextButton = document.getElementById('greek-next-btn');
+    if (nextButton) {
+        nextButton.addEventListener('click', nextQuestion);
+    }
 }
 
 // NLP Task Scheduler functionality
@@ -847,7 +964,7 @@ function initNLPTaskScheduler() {
 
         let taskType = "Task";
         let date = "2025-04-07"; // Default to tomorrow
-        let time = "";
+        let time = "00:00";
         let priority = "Normal";
 
         // Very simple pattern matching
@@ -863,6 +980,12 @@ function initNLPTaskScheduler() {
         // Simple date extraction
         if (text.toLowerCase().includes("tomorrow")) {
             date = "2025-04-07"; // Assuming today is April 6, 2025
+        } else if (text.toLowerCase().includes("tonight") || text.toLowerCase().includes("today")) {
+            date = "2025-04-06"; // Assuming today is April 6, 2025
+        } else if (text.toLowerCase().includes("wednesday")) {
+            date = "2025-04-09"; // Assuming the next Wednesday
+        } else if (text.toLowerCase().includes("thursday")) {
+            date = "2025-04-10"; // Assuming the next Thursday
         } else if (text.toLowerCase().includes("friday")) {
             date = "2025-04-11";
         } else if (text.toLowerCase().includes("monday")) {
@@ -882,7 +1005,7 @@ function initNLPTaskScheduler() {
             parsed: {
                 type: taskType,
                 date: date,
-                time: time || "00:00",
+                time: time,
                 priority: priority
             }
         };

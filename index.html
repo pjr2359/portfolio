@@ -90,14 +90,16 @@
                     <div class="embed-header">
                         <h4 class="embed-title">Rowing Analytics Dashboard</h4>
                         <div class="embed-controls">
-                            <button class="embed-control-btn">?</button>
+                            <button class="embed-control-btn" aria-label="Help information">?</button>
+
                         </div>
                     </div>
-                    <div class="embed-tabs">
-                        <div class="embed-tab active" data-target="rowing-visualization">Visualization</div>
-                        <div class="embed-tab" data-target="rowing-data">Data</div>
+                    <div class="embed-tabs" role="tablist">
+                        <div class="embed-tab active" role="tab" aria-selected="true" aria-controls="rowing-visualization" tabindex="0" data-target="rowing-visualization">Visualization</div>
+                        <div class="embed-tab" role="tab" aria-selected="false" aria-controls="rowing-data" tabindex="0" data-target="rowing-data">Data</div>
+                        <div class="embed-tab" role="tab" aria-selected="false" aria-controls="rowing-info" tabindex="0" data-target="rowing-info">Info</div>
                     </div>
-                    <div class="embed-panel rowing-visualization active">
+                    <div class="embed-panel rowing-visualization active" role="tabpanel" id="rowing-visualization" aria-labelledby="tab-rowing-visualization">
                         <div class="rowing-chart-container">
                             <canvas id="rowing-chart"></canvas>
                         </div>
@@ -125,6 +127,19 @@
                                 <!-- Populated by JavaScript -->
                             </tbody>
                         </table>
+                    </div>
+                    <div class="embed-panel rowing-info">
+                        <h4>About Rowing Analytics</h4>
+                        <p>This dashboard visualizes rowing performance data using the Gold Medal Standard (GMS) as a benchmark.</p>
+                        <p>The Gold Medal Standard is a time-based performance metric used in rowing to compare an athlete's performance to international gold medal times.</p>
+                        <h5>Key Features:</h5>
+                        <ul>
+                            <li><strong>Performance Comparison:</strong> Compare rowers based on their percentage of GMS</li>
+                            <li><strong>Race Analysis:</strong> View detailed race results and metrics</li>
+                            <li><strong>Filtering:</strong> Filter data by specific rower or race</li>
+                            <li><strong>Visual Representation:</strong> Interactive charts showing performance trends</li>
+                        </ul>
+                        <p>Higher percentage values indicate better performance relative to gold medal standards.</p>
                     </div>
                 </div>
             </div>
@@ -154,14 +169,14 @@
                     <div class="embed-header">
                         <h4 class="embed-title">Natural Language Task Scheduler</h4>
                         <div class="embed-controls">
-                            <button class="embed-control-btn">?</button>
+                            <button class="embed-control-btn" aria-label="Help information">?</button>
                         </div>
                     </div>
                     <div class="embed-tabs">
-                        <div class="embed-tab active" data-target="nlp-demo">Demo</div>
-                        <div class="embed-tab" data-target="nlp-info">Info</div>
+                        <div class="embed-tab active" role="tab" aria-selected="true" aria-controls="nlp-demo" tabindex="0" data-target="nlp-demo">Demo</div>
+                        <div class="embed-tab" role="tab" aria-selected="false" aria-controls="nlp-info" tabindex="0" data-target="nlp-info">Info</div>
                     </div>
-                    <div class="embed-panel nlp-demo active">
+                    <div class="embed-panel nlp-demo active" role="tabpanel" id="nlp-demo" aria-labelledby="tab-nlp-demo">
                         <form id="nlp-task-form" class="nlp-form">
                             <input type="text" id="nlp-task-input" class="nlp-input" placeholder="Enter a task in natural language (e.g., 'Meeting with team tomorrow at 2pm')">
                             <button type="submit" class="nlp-submit">Add Task</button>
@@ -208,14 +223,14 @@
                     <div class="embed-header">
                         <h4 class="embed-title">Greek Verb Conjugator</h4>
                         <div class="embed-controls">
-                            <button class="embed-control-btn">?</button>
+                            <button class="embed-control-btn" aria-label="Help information">?</button>
                         </div>
                     </div>
                     <div class="embed-tabs">
-                        <div class="embed-tab active" data-target="greek-practice">Practice</div>
-                        <div class="embed-tab" data-target="greek-info">Info</div>
+                        <div class="embed-tab active" role="tab" aria-selected="true" aria-controls="greek-practice" tabindex="0" data-target="greek-practice">Practice</div>
+                        <div class="embed-tab" role="tab" aria-selected="false" aria-controls="greek-info" tabindex="0" data-target="greek-info">Info</div>
                     </div>
-                    <div class="embed-panel greek-practice active">
+                    <div class="embed-panel greek-practice active" role="tabpanel" id="greek-practice" aria-labelledby="tab-greek-practice">
                         <div id="greek-setup-container">
                             <h4>Practice Modern Greek Conjugations</h4>
                             <p>Select a verb and tense to practice:</p>
@@ -223,13 +238,21 @@
                                 <div class="greek-input-group">
                                     <label for="greek-verb-select" class="greek-label">Verb:</label>
                                     <select id="greek-verb-select" class="greek-select">
-                                        <!-- Populated by JavaScript -->
+                                        
                                     </select>
+                                    
                                 </div>
                                 <div class="greek-input-group">
                                     <label for="greek-tense-select" class="greek-label">Tense:</label>
                                     <select id="greek-tense-select" class="greek-select">
                                         <!-- Populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="greek-input-group">
+                                    <label for="greek-mode-select" class="greek-label">Practice Mode:</label>
+                                    <select id="greek-mode-select" class="greek-select">
+                                        <option value="multiple-choice">Multiple Choice</option>
+                                        <option value="fill-in-blank">Fill in the Blank</option>
                                     </select>
                                 </div>
                                 <button type="button" id="greek-start-practice" class="nlp-submit">Start Practice</button>
