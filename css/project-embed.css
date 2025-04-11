@@ -302,3 +302,103 @@
         grid-template-columns: 1fr !important;
     }
 }
+
+/* Loading indicator styles */
+.loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 159, 253, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--secondary-color);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
+/* Enhanced mobile experience */
+@media screen and (max-width: 480px) {
+    /* Make tabs more touchable */
+    .embed-tab {
+        padding: 12px 15px;
+        min-height: 44px;
+    }
+    
+    /* Button enhancements for touch */
+    button, .project-link, .greek-option-btn, .nlp-submit {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 15px;
+    }
+    
+    /* Improved table display */
+    .rowing-table, .rowing-table thead, .rowing-table tbody, 
+    .rowing-table th, .rowing-table td, .rowing-table tr {
+        display: block;
+    }
+    
+    .rowing-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    .rowing-table tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .rowing-table td {
+        position: relative;
+        padding-left: 50% !important;
+        text-align: left !important;
+        min-height: 30px;
+    }
+    
+    .rowing-table td:before {
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        font-weight: bold;
+    }
+    
+    /* Dynamic data labels */
+    .rowing-table tr:nth-of-type(1) td:nth-of-type(1):before { content: "Rank"; }
+    .rowing-table tr:nth-of-type(1) td:nth-of-type(2):before { content: "Rower"; }
+    .rowing-table tr:nth-of-type(1) td:nth-of-type(3):before { content: "Performance"; }
+    
+    /* Improved form layout */
+    .greek-form, .nlp-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    /* Full width controls on mobile */
+    .rowing-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .rowing-select, .greek-select {
+        width: 100%;
+    }
+    
+    /* Single column layout for options */
+    #greek-options-container {
+        grid-template-columns: 1fr !important;
+    }
+}

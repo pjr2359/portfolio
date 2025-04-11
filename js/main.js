@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all interactive elements
     initNavigation();
     initProjectEmbeds();
-    initRowingAnalytics();
-    initGreekConjugator();
-    initNLPTaskScheduler();
+    //initRowingAnalytics();
+    //initGreekConjugator();
+    //initNLPTaskScheduler();
+    initProjectLazyLoading();
+    initAccessibility();
+    initContactForm();
 });
 
 // Navigation functionality
@@ -556,6 +559,12 @@ function initGreekConjugator() {
         // Clear existing options
         verbSelect.innerHTML = '';
         
+        // Add Random Verb option as the first choice
+        const randomOption = document.createElement('option');
+        randomOption.value = 'random';
+        randomOption.textContent = 'Random Verb';
+        verbSelect.appendChild(randomOption);
+        
         // Add verb options
         greekVerbs.forEach(verb => {
             const option = document.createElement('option');
@@ -570,6 +579,12 @@ function initGreekConjugator() {
     if (tenseSelect) {
         // Clear existing options
         tenseSelect.innerHTML = '';
+        
+        // Add Random Tense option as the first choice
+        const randomOption = document.createElement('option');
+        randomOption.value = 'random';
+        randomOption.textContent = 'Random Tense';
+        tenseSelect.appendChild(randomOption);
         
         // Add tense options
         tenses.forEach(tense => {
@@ -590,16 +605,34 @@ function initGreekConjugator() {
     function startPractice() {
         const verbSelect = document.getElementById('greek-verb-select');
         const tenseSelect = document.getElementById('greek-tense-select');
+        const modeSelect = document.getElementById('greek-mode-select');
         const practiceContainer = document.getElementById('greek-practice-container');
         const setupContainer = document.getElementById('greek-setup-container');
         
-        if (!verbSelect || !tenseSelect || !practiceContainer || !setupContainer) {
+        if (!verbSelect || !tenseSelect || !modeSelect || !practiceContainer || !setupContainer) {
             return;
         }
         
-        // Get selected verb and tense
-        currentVerb = verbSelect.value;
-        currentTense = tenseSelect.value.toLowerCase();
+        // Get selected verb, tense and practice mode
+        let selectedVerb = verbSelect.value;
+        let selectedTense = tenseSelect.value.toLowerCase();
+        let practiceMode = modeSelect.value;
+        
+        // Handle random verb selection
+        if (selectedVerb === 'random') {
+            const randomIndex = Math.floor(Math.random() * greekVerbs.length);
+            selectedVerb = greekVerbs[randomIndex].name;
+        }
+        
+        // Handle random tense selection
+        if (selectedTense === 'random') {
+            const randomIndex = Math.floor(Math.random() * tenses.length);
+            selectedTense = tenses[randomIndex].toLowerCase();
+        }
+        
+        // Set current verb and tense
+        currentVerb = selectedVerb;
+        currentTense = selectedTense;
         
         // Hide setup, show practice
         setupContainer.style.display = 'none';
@@ -610,8 +643,12 @@ function initGreekConjugator() {
         totalQuestions = 0;
         updateScore();
         
-        // Generate first question
-        generateQuestion();
+        // Generate first question based on mode
+        if (practiceMode === 'fill-in-blank') {
+            generateFillInBlankQuestion();
+        } else {
+            generateQuestion(); // Default to multiple choice
+        }
     }
     
     // Function to generate a new practice question
@@ -723,6 +760,11 @@ function initGreekConjugator() {
     function nextQuestion() {
         const feedbackElement = document.getElementById('greek-feedback');
         const nextButton = document.getElementById('greek-next-btn');
+        const modeSelect = document.getElementById('greek-mode-select');
+        
+        if (!modeSelect) {
+            return;
+        }
         
         if (feedbackElement) {
             feedbackElement.textContent = '';
@@ -733,13 +775,12 @@ function initGreekConjugator() {
             nextButton.style.display = 'none';
         }
         
-        generateQuestion();
-    }
-    
-    // Set up next button
-    const nextButton = document.getElementById('greek-next-btn');
-    if (nextButton) {
-        nextButton.addEventListener('click', nextQuestion);
+        // Generate next question based on mode
+        if (modeSelect.value === 'fill-in-blank') {
+            generateFillInBlankQuestion();
+        } else {
+            generateQuestion();
+        }
     }
     
     // Function to update the score display
@@ -773,6 +814,119 @@ function initGreekConjugator() {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
+    }
+
+    // Set up random verb button
+    const randomVerbBtn = document.getElementById('greek-random-verb');
+    if (randomVerbBtn) {
+        randomVerbBtn.addEventListener('click', function() {
+            const verbSelect = document.getElementById('greek-verb-select');
+            if (verbSelect) {
+                verbSelect.value = 'random';
+            }
+        });
+    }
+
+    // Function to generate a fill-in-the-blank question
+    function generateFillInBlankQuestion() {
+        const questionElement = document.getElementById('greek-question');
+        const optionsContainer = document.getElementById('greek-options-container');
+        
+        if (!questionElement || !optionsContainer) {
+            return;
+        }
+        
+        // Clear previous options
+        optionsContainer.innerHTML = '';
+        
+        // Randomly select a person
+        const personIndex = Math.floor(Math.random() * persons.length);
+        currentPerson = persons[personIndex];
+        
+        // Get correct answer
+        correctAnswer = conjugationPatterns[currentTense][currentVerb][personIndex];
+        
+        // Set question text
+        questionElement.textContent = `What is the ${currentTense} tense conjugation of "${currentVerb}" for ${currentPerson}?`;
+        
+        // Create input field
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'fill-in-blank-container';
+        
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.className = 'greek-input';
+        inputField.placeholder = 'Type your answer...';
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkFillInBlankAnswer(this.value);
+            }
+        });
+        
+        const submitButton = document.createElement('button');
+        submitButton.type = 'button';
+        submitButton.className = 'greek-submit-btn';
+        submitButton.textContent = 'Submit';
+        submitButton.addEventListener('click', function() {
+            checkFillInBlankAnswer(inputField.value);
+        });
+        
+        inputContainer.appendChild(inputField);
+        inputContainer.appendChild(submitButton);
+        optionsContainer.appendChild(inputContainer);
+        
+        // Focus on the input field
+        setTimeout(() => {
+            inputField.focus();
+        }, 100);
+    }
+
+    // Function to check fill-in-the-blank answer
+    function checkFillInBlankAnswer(answer) {
+        const feedbackElement = document.getElementById('greek-feedback');
+        const inputField = document.querySelector('.greek-input');
+        const submitButton = document.querySelector('.greek-submit-btn');
+        
+        if (!feedbackElement || !inputField || !submitButton) {
+            return;
+        }
+        
+        totalQuestions++;
+        
+        // Disable input
+        inputField.disabled = true;
+        submitButton.disabled = true;
+        
+        // Check if answer is correct (trim whitespace and ignore case)
+        const userAnswer = answer.trim();
+        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+        
+        // Provide feedback
+        if (isCorrect) {
+            feedbackElement.textContent = 'Correct! Well done!';
+            feedbackElement.className = 'feedback-correct';
+            inputField.className = 'greek-input correct-answer';
+            score++;
+        } else {
+            feedbackElement.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
+            feedbackElement.className = 'feedback-incorrect';
+            inputField.className = 'greek-input incorrect-answer';
+        }
+        
+        // Update score
+        updateScore();
+        
+        // Show next button
+        const nextButton = document.getElementById('greek-next-btn');
+        if (nextButton) {
+            nextButton.style.display = 'block';
+        }
+    }
+
+    // Set up next button
+    const nextButton = document.getElementById('greek-next-btn');
+    if (nextButton) {
+        nextButton.addEventListener('click', nextQuestion);
     }
 }
 
@@ -834,7 +988,14 @@ function initNLPTaskScheduler() {
         // Clear existing tasks
         taskResults.innerHTML = '';
         
-        // Display sample tasks
+        // Sort tasks by date and time
+        sampleTasks.sort((a, b) => {
+            const dateA = new Date(`${a.parsed.date}T${a.parsed.time}`);
+            const dateB = new Date(`${b.parsed.date}T${b.parsed.time}`);
+            return dateA - dateB;
+        });
+        
+        // Display sorted tasks
         sampleTasks.forEach(task => {
             displayTask(task);
         });
@@ -847,7 +1008,7 @@ function initNLPTaskScheduler() {
         
         let taskType = "Task";
         let date = "2025-04-07"; // Default to tomorrow
-        let time = "";
+        let time = "00:00";
         let priority = "Normal";
         
         // Very simple pattern matching
@@ -863,17 +1024,51 @@ function initNLPTaskScheduler() {
         // Simple date extraction
         if (text.toLowerCase().includes("tomorrow")) {
             date = "2025-04-07"; // Assuming today is April 6, 2025
+        } else if (text.toLowerCase().includes("tonight") || text.toLowerCase().includes("today")) {
+            date = "2025-04-06"; // Assuming today is April 6, 2025
+        } else if (text.toLowerCase().includes("wednesday")) {
+            date = "2025-04-09"; // Assuming the next Wednesday
+        } else if (text.toLowerCase().includes("thursday")) {
+            date = "2025-04-10"; // Assuming the next Thursday
         } else if (text.toLowerCase().includes("friday")) {
             date = "2025-04-11";
         } else if (text.toLowerCase().includes("monday")) {
             date = "2025-04-14";
         }
         
-        // Simple time extraction
-        if (text.includes("2pm") || text.includes("2 pm")) {
-            time = "14:00";
-        } else if (text.includes("9am") || text.includes("9 am")) {
-            time = "09:00";
+        // Improved time extraction with regex
+        let timeRegex = /(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)?/i;
+        let timeMatch = text.match(timeRegex);
+        
+        if (timeMatch) {
+            let hours = parseInt(timeMatch[1]);
+            let minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
+            let period = timeMatch[3] ? timeMatch[3].toLowerCase() : null;
+            
+            // Convert to 24-hour format
+            if (period && (period === 'pm' || period === 'p.m.') && hours < 12) {
+                hours += 12;
+            } else if (period && (period === 'am' || period === 'a.m.') && hours === 12) {
+                hours = 0;
+            }
+            
+            // Handle common time phrases
+            if (text.toLowerCase().includes("evening") || text.toLowerCase().includes("tonight")) {
+                if (hours < 12 && !period) hours += 12;
+            }
+            
+            time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        }
+        
+        // Priority determination from text
+        if (text.toLowerCase().includes("urgent") || 
+            text.toLowerCase().includes("important") || 
+            text.toLowerCase().includes("asap") || 
+            text.toLowerCase().includes("high priority")) {
+            priority = "High";
+        } else if (text.toLowerCase().includes("low priority") || 
+                   text.toLowerCase().includes("if time")) {
+            priority = "Low";
         }
         
         // Create parsed task object
@@ -882,7 +1077,7 @@ function initNLPTaskScheduler() {
             parsed: {
                 type: taskType,
                 date: date,
-                time: time || "00:00",
+                time: time,
                 priority: priority
             }
         };
@@ -945,7 +1140,203 @@ function initNLPTaskScheduler() {
         taskCard.appendChild(taskDate);
         taskCard.appendChild(taskDetails);
         
-        // Add to results
-        taskResults.prepend(taskCard);
+        // Get all existing tasks and add the new one
+        const allTasks = document.querySelectorAll('.task-card');
+        const newTaskDate = new Date(`${task.parsed.date}T${task.parsed.time}`);
+        
+        // If no tasks exist, just append
+        if (allTasks.length === 0) {
+            taskResults.appendChild(taskCard);
+            return;
+        }
+        
+        // Find the right position to insert the task based on date
+        let inserted = false;
+        for (let i = 0; i < allTasks.length; i++) {
+            const existingTask = allTasks[i];
+            const dateText = existingTask.querySelector('.task-date').textContent;
+            const [datePart, timePart] = dateText.split(' ');
+            const existingDate = new Date(`${datePart}T${timePart}`);
+            
+            if (newTaskDate < existingDate) {
+                taskResults.insertBefore(taskCard, existingTask);
+                inserted = true;
+                break;
+            }
+        }
+        
+        // If the new task is the latest, append it to the end
+        if (!inserted) {
+            taskResults.appendChild(taskCard);
+        }
+    }
+}
+
+function initProjectLazyLoading() {
+    // Create IntersectionObserver for lazy loading
+    const projectObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const projectCard = entry.target;
+                const projectId = projectCard.id;
+                
+                // Load project embed when it comes into view
+                if (!projectCard.dataset.loaded) {
+                    loadProjectEmbed(projectId);
+                    projectCard.dataset.loaded = 'true';
+                }
+                
+                // Stop observing once loaded
+                projectObserver.unobserve(projectCard);
+            }
+        });
+    }, {
+        rootMargin: '100px', // Start loading when within 100px of viewport
+        threshold: 0.1
+    });
+    
+    // Observe all project cards
+    document.querySelectorAll('.project-card').forEach(card => {
+        projectObserver.observe(card);
+    });
+}
+
+function loadProjectEmbed(projectId) {
+    // Show loading indicator
+    const embed = document.querySelector(`#${projectId}-embed`);
+    if (embed) {
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.className = 'loading-indicator';
+        loadingIndicator.innerHTML = '<div class="spinner"></div><p>Loading...</p>';
+        embed.appendChild(loadingIndicator);
+        
+        // Simulate loading (remove this in production)
+        setTimeout(() => {
+            loadingIndicator.remove();
+            
+            // Initialize the specific project
+            switch(projectId) {
+                case 'rowing-analytics':
+                    initRowingAnalytics();
+                    break;
+                case 'greek-conjugator':
+                    initGreekConjugator();
+                    break;
+                case 'nlp-task-scheduler':
+                    initNLPTaskScheduler();
+                    break;
+            }
+        }, 500);
+    }
+}
+
+function initAccessibility() {
+    // Make tabs keyboard navigable
+    document.querySelectorAll('.embed-tab').forEach(tab => {
+        tab.addEventListener('keydown', function(e) {
+            // Enter or Space activates the tab
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+            
+            // Arrow keys for navigation between tabs
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                
+                const tabs = Array.from(this.parentElement.querySelectorAll('.embed-tab'));
+                const currentIndex = tabs.indexOf(this);
+                let nextIndex;
+                
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (currentIndex + 1) % tabs.length;
+                } else {
+                    nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                }
+                
+                tabs[nextIndex].focus();
+            }
+        });
+    });
+    
+    // Enhance button focus states
+    document.querySelectorAll('button, .project-link, input, select').forEach(el => {
+        // Already handled by CSS focus states
+    });
+}
+
+
+function initContactForm() {
+    const contactForm = document.querySelector('.contact-form form');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form inputs
+            const nameInput = this.querySelector('input[placeholder="Your Name"]');
+            const emailInput = this.querySelector('input[placeholder="Your Email"]');
+            const messageInput = this.querySelector('textarea');
+            
+            // Reset previous error states
+            this.querySelectorAll('.error-message').forEach(el => el.remove());
+            this.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+            
+            // Validate form
+            let isValid = true;
+            
+            // Name validation
+            if (!nameInput.value.trim()) {
+                addErrorMessage(nameInput, 'Please enter your name');
+                isValid = false;
+            }
+            
+            // Email validation
+            if (!validateEmail(emailInput.value.trim())) {
+                addErrorMessage(emailInput, 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Message validation
+            if (!messageInput.value.trim()) {
+                addErrorMessage(messageInput, 'Please enter your message');
+                isValid = false;
+            }
+            
+            // If valid, show success message
+            if (isValid) {
+                const formControls = contactForm.querySelectorAll('.form-control, button');
+                formControls.forEach(el => el.disabled = true);
+                
+                const successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                successMessage.textContent = 'Thank you! Your message has been sent successfully.';
+                contactForm.appendChild(successMessage);
+                
+                // Reset form after delay
+                setTimeout(() => {
+                    contactForm.reset();
+                    formControls.forEach(el => el.disabled = false);
+                    successMessage.remove();
+                }, 5000);
+            }
+        });
+    }
+    
+    // Helper function to validate email
+    function validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+    
+    // Helper function to add error message
+    function addErrorMessage(inputElement, message) {
+        inputElement.classList.add('error');
+        
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'error-message';
+        errorMessage.textContent = message;
+        
+        inputElement.parentNode.appendChild(errorMessage);
     }
 }
