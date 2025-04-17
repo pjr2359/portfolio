@@ -1,114 +1,86 @@
 // Main JavaScript for Portfolio Interactive Elements
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Initialize all interactive elements
+document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initProjectEmbeds();
-    //initRowingAnalytics();
-    //initGreekConjugator();
-    //initNLPTaskScheduler();
-    initProjectLazyLoading();
-    initAccessibility();
-    initContactForm();
-    initLightbox(); 
+
+    initRowingAnalytics();
+    initGreekConjugator();
+    initNLPTaskScheduler();
+
+    initLightbox();
 });
 
-// Navigation functionality
-function initNavigation() {
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+/* ---------- Navigation ---------- */
+function initNavigation(){
+    const hamburger=document.querySelector('.hamburger');
+    const navLinks =document.querySelector('.nav-links');
 
-    if (hamburger) {
-        hamburger.addEventListener('click', function () {
+    if(hamburger){
+        hamburger.addEventListener('click',()=>{
             navLinks.classList.toggle('open');
             hamburger.classList.toggle('active');
         });
     }
 }
 
-// Project embed functionality
+/* ---------- Project embeds ---------- */
 function initProjectEmbeds() {
-    console.log("Project embeds initializing...");
-    const allEmbeds = document.querySelectorAll('.project-embed');
-    console.log("Found project embeds:", allEmbeds.length);
-
-    // Tab switching functionality
-    const tabs = document.querySelectorAll('.embed-tab');
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function () {
-            // Get the parent embed container
-            const embedContainer = this.closest('.project-embed');
-
-            // Remove active class from all tabs in this container
-            embedContainer.querySelectorAll('.embed-tab').forEach(t => {
-                t.classList.remove('active');
-            });
-
-            // Add active class to clicked tab
+    /* tab switching */
+    document.querySelectorAll('.embed-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const embed = this.closest('.project-embed');
+            embed.querySelectorAll('.embed-tab').forEach(t => t.classList.remove('active'));
             this.classList.add('active');
+            embed.querySelectorAll('.embed-panel').forEach(p => p.classList.remove('active'));
+            embed.querySelector(`.${this.dataset.target}`).classList.add('active');
+        });
+    });
 
-            // Get target panel
-            const targetPanel = this.getAttribute('data-target');
+    /* help button */
+    document.querySelectorAll('.embed-control-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const infoTab = this.closest('.project-embed').querySelector('.embed-tab:not(.active)');
+            if(infoTab) infoTab.click();
+        });
+    });
 
-            // Hide all panels in this container
-            embedContainer.querySelectorAll('.embed-panel').forEach(panel => {
-                panel.classList.remove('active');
+    /* show / hide embeds & expand card */
+    document.querySelectorAll('a[href^="#"][href$="-embed"]').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            console.log("Demo link clicked");
+
+            const embed = document.querySelector(link.getAttribute('href'));
+            const card = link.closest('.project-card');
+
+            if(!embed || !card) {
+                console.log("Target not found");
+                return;
+            }
+
+            /* close any other open card */
+            document.querySelectorAll('.project-card.expanded').forEach(c => {
+                if(c !== card) {
+                    c.classList.remove('expanded');
+                    const other = c.querySelector('.project-embed');
+                    if(other) other.style.display='none';
+                }
             });
 
-            // Show target panel
-            embedContainer.querySelector(`.${targetPanel}`).classList.add('active');
+            card.classList.add('expanded');
+            embed.style.display='block';
+            embed.scrollIntoView({behavior:'smooth'});
+
+            history.pushState(null,'',link.getAttribute('href'));
         });
     });
 
-    // Help button functionality
-    const helpButtons = document.querySelectorAll('.embed-control-btn');
-
-    helpButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const embedContainer = this.closest('.project-embed');
-            const infoTab = embedContainer.querySelector('.embed-tab:not(.active)');
-
-            if (infoTab) {
-                infoTab.click();
-            }
-        });
-    });
-
-    // Project link functionality to show embeds
-    const projectLinks = document.querySelectorAll('a[href^="#"][href$="-embed"]');
-
-    projectLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            console.log('Demo link clicked:', this.getAttribute('href'));
-
-            const targetId = this.getAttribute('href');
-            const targetEmbed = document.querySelector(targetId);
-            
-            console.log('Found target element:', targetEmbed);
-            
-            if (targetEmbed) {
-                console.log('Setting display to block');
-                targetEmbed.style.display = 'block';
-
-                // Scroll to it
-                targetEmbed.scrollIntoView({ behavior: 'smooth' });
-
-                // Update URL hash
-                history.pushState(null, null, targetId);
-            }
-        });
-    });
-
-    // Handle direct URL access with hash
-    if (window.location.hash && window.location.hash.endsWith('-embed')) {
-        const targetEmbed = document.querySelector(window.location.hash);
-        if (targetEmbed) {
-            targetEmbed.style.display = 'block';
-            setTimeout(() => {
-                targetEmbed.scrollIntoView({ behavior: 'smooth' });
-            }, 500);
+    /* open directly via hash */
+    if(location.hash.endsWith('-embed')){
+        const embed=document.querySelector(location.hash);
+        if(embed){
+            embed.closest('.project-card').classList.add('expanded');
+            embed.style.display='block';
         }
     }
 }
@@ -563,33 +535,36 @@ function initGreekConjugator() {
 
     // Populate verb select dropdown
     const verbSelect = document.getElementById('greek-verb-select');
-    if (verbSelect) {
-        // Clear existing options
-        verbSelect.innerHTML = '';
-
-        // Add verb options
-        greekVerbs.forEach(verb => {
-            const option = document.createElement('option');
-            option.value = verb.name;
-            option.textContent = `${verb.name} (${verb.meaning})`;
-            verbSelect.appendChild(option);
+    if(verbSelect){
+        verbSelect.innerHTML='';
+        const rnd=document.createElement('option');
+        rnd.value='random';
+        rnd.textContent='Random Verb';
+        verbSelect.appendChild(rnd);                         /* NEW */
+        greekVerbs.forEach(verb=>{
+            const opt=document.createElement('option');
+            opt.value=verb.name;
+            opt.textContent=`${verb.name} (${verb.meaning})`;
+            verbSelect.appendChild(opt);
         });
     }
 
-    // Populate tense select dropdown
+    /* populate tense select – add RANDOM option  NEW */
     const tenseSelect = document.getElementById('greek-tense-select');
-    if (tenseSelect) {
-        // Clear existing options
-        tenseSelect.innerHTML = '';
-
-        // Add tense options
-        tenses.forEach(tense => {
-            const option = document.createElement('option');
-            option.value = tense.toLowerCase();
-            option.textContent = tense;
-            tenseSelect.appendChild(option);
+    if(tenseSelect){
+        tenseSelect.innerHTML='';
+        const rnd=document.createElement('option');
+        rnd.value='random';
+        rnd.textContent='Random Tense';
+        tenseSelect.appendChild(rnd);                        /* NEW */
+        tenses.forEach(t=>{
+            const opt=document.createElement('option');
+            opt.value=t.toLowerCase();
+            opt.textContent=t;
+            tenseSelect.appendChild(opt);
         });
     }
+
 
     // Set up practice mode
     const startPracticeBtn = document.getElementById('greek-start-practice');
@@ -612,6 +587,14 @@ function initGreekConjugator() {
         // Get selected verb and tense
         currentVerb = verbSelect.value;
         currentTense = tenseSelect.value.toLowerCase();
+
+        
+        if(currentVerb==='random'){                         /* NEW */
+            currentVerb=greekVerbs[Math.floor(Math.random()*greekVerbs.length)].name;
+        }
+        if(currentTense==='random'){                        /* NEW */
+            currentTense=tenses[Math.floor(Math.random()*tenses.length)].toLowerCase();
+        }
 
         // Hide setup, show practice
         setupContainer.style.display = 'none';
@@ -895,152 +878,214 @@ function initGreekConjugator() {
     }
 }
 
-// NLP Task Scheduler functionality
+// NLP Task Scheduler with dynamic dates and chronological sorting
 function initNLPTaskScheduler() {
-    // Sample tasks for demonstration
-    const sampleTasks = [
-        {
-            text: "Meeting with team tomorrow at 2pm",
-            parsed: {
-                type: "Meeting",
-                date: "2025-04-07",
-                time: "14:00",
-                duration: "1 hour"
+    // Tasks array to store all tasks
+    let tasks = [];
+    
+    // Generate sample tasks with dates relative to today
+    function createSampleTasks() {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        const friday = new Date(today);
+        // Find the next Friday (day 5)
+        friday.setDate(today.getDate() + ((5 + 7 - today.getDay()) % 7));
+        
+        const nextMonday = new Date(today);
+        // Find the next Monday (day 1)
+        nextMonday.setDate(today.getDate() + ((1 + 7 - today.getDay()) % 7));
+        
+        return [
+            {
+                text: "Meeting with team tomorrow at 2pm",
+                parsed: {
+                    type: "Meeting",
+                    date: formatDate(tomorrow),
+                    time: "14:00",
+                    duration: "1 hour"
+                }
+            },
+            {
+                text: "Submit project proposal by Friday",
+                parsed: {
+                    type: "Deadline",
+                    date: formatDate(friday),
+                    time: "23:59",
+                    priority: "High"
+                }
+            },
+            {
+                text: "Call John about the presentation next Monday",
+                parsed: {
+                    type: "Call",
+                    date: formatDate(nextMonday),
+                    time: "09:00",
+                    contact: "John"
+                }
             }
-        },
-        {
-            text: "Submit project proposal by Friday",
-            parsed: {
-                type: "Deadline",
-                date: "2025-04-11",
-                time: "23:59",
-                priority: "High"
-            }
-        },
-        {
-            text: "Call John about the presentation next Monday",
-            parsed: {
-                type: "Call",
-                date: "2025-04-14",
-                time: "09:00",
-                contact: "John"
-            }
-        }
-    ];
-
-    // Display sample tasks
-    displaySampleTasks();
-
+        ];
+    }
+    
+    // Format date as YYYY-MM-DD
+    function formatDate(date) {
+        return date.toISOString().split('T')[0];
+    }
+    
+    // Initialize with sample tasks
+    tasks = createSampleTasks();
+    
+    // Render tasks in chronological order
+    renderTasks();
+    
     // Set up form handling
     const taskForm = document.getElementById('nlp-task-form');
     if (taskForm) {
         taskForm.addEventListener('submit', function (e) {
             e.preventDefault();
-
+            
             const taskInput = document.getElementById('nlp-task-input');
             if (taskInput && taskInput.value.trim() !== '') {
-                parseTask(taskInput.value.trim());
+                const newTask = parseTask(taskInput.value.trim());
+                tasks.push(newTask);
+                renderTasks(); // Re-render in chronological order
                 taskInput.value = '';
             }
         });
     }
-
-    // Function to display sample tasks
-    function displaySampleTasks() {
-        const taskResults = document.getElementById('nlp-task-results');
-        if (!taskResults) return;
-
-        // Clear existing tasks
-        taskResults.innerHTML = '';
-
-        // Display sample tasks
-        sampleTasks.forEach(task => {
-            displayTask(task);
-        });
-    }
-
-    // Function to parse task using simple rules (simulation)
+    
+    // Parse task using natural language processing simulation
     function parseTask(text) {
-        // This is a simplified simulation of NLP parsing
-        // In a real app, this would use a proper NLP library
-
+        const today = new Date();
         let taskType = "Task";
-        let date = "2025-04-07"; // Default to tomorrow
-        let time = "00:00";
+        let date = formatDate(today); // Default to today
+        let time = "12:00"; // Default noon
         let priority = "Normal";
-
-        // Very simple pattern matching
+        let contact = null;
+        let duration = null;
+        
+        // Simple type detection
         if (text.toLowerCase().includes("meeting")) {
             taskType = "Meeting";
+            duration = "1 hour";
         } else if (text.toLowerCase().includes("call")) {
             taskType = "Call";
+            
+            // Extract contact name (very simple implementation)
+            const callMatch = text.match(/call\s+(\w+)/i);
+            if (callMatch && callMatch[1]) {
+                contact = callMatch[1];
+            }
         } else if (text.toLowerCase().includes("deadline") || text.toLowerCase().includes("submit")) {
             taskType = "Deadline";
             priority = "High";
+            time = "23:59"; // End of day for deadlines
         }
-
-        // Simple date extraction
+        
+        // Date extraction
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        
         if (text.toLowerCase().includes("tomorrow")) {
-            date = "2025-04-07"; // Assuming today is April 6, 2025
-        } else if (text.toLowerCase().includes("tonight") || text.toLowerCase().includes("today")) {
-            date = "2025-04-06"; // Assuming today is April 6, 2025
-        } else if (text.toLowerCase().includes("wednesday")) {
-            date = "2025-04-09"; // Assuming the next Wednesday
-        } else if (text.toLowerCase().includes("thursday")) {
-            date = "2025-04-10"; // Assuming the next Thursday
-        } else if (text.toLowerCase().includes("friday")) {
-            date = "2025-04-11";
-        } else if (text.toLowerCase().includes("monday")) {
-            date = "2025-04-14";
+            date = formatDate(tomorrow);
+        } else if (text.toLowerCase().includes("tonight")) {
+            date = formatDate(today);
+            time = "20:00";
+        } else if (text.toLowerCase().includes("today")) {
+            date = formatDate(today);
+        } else {
+            // Check for day names
+            const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+            for (let i = 0; i < dayNames.length; i++) {
+                if (text.toLowerCase().includes(dayNames[i])) {
+                    const targetDay = new Date(today);
+                    const daysUntilTarget = (i + 7 - today.getDay()) % 7;
+                    // If it's "next X", add a week
+                    const weeksToAdd = text.toLowerCase().includes("next " + dayNames[i]) ? 1 : 0;
+                    targetDay.setDate(today.getDate() + daysUntilTarget + (weeksToAdd * 7));
+                    date = formatDate(targetDay);
+                    break;
+                }
+            }
         }
-
-        // Simple time extraction
-        if (text.includes("2pm") || text.includes("2 pm")) {
-            time = "14:00";
-        } else if (text.includes("9am") || text.includes("9 am")) {
-            time = "09:00";
+        
+        // Time extraction
+        const timeRegex = /(\d+)(?::(\d+))?\s*(am|pm)/i;
+        const timeMatch = text.match(timeRegex);
+        if (timeMatch) {
+            let hours = parseInt(timeMatch[1], 10);
+            const minutes = timeMatch[2] ? parseInt(timeMatch[2], 10) : 0;
+            const period = timeMatch[3].toLowerCase();
+            
+            if (period === 'pm' && hours < 12) hours += 12;
+            if (period === 'am' && hours === 12) hours = 0;
+            
+            time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
         }
-
-        // Create parsed task object
-        const parsedTask = {
+        
+        return {
             text: text,
             parsed: {
                 type: taskType,
                 date: date,
                 time: time,
-                priority: priority
+                priority: priority,
+                ...(contact && { contact }),
+                ...(duration && { duration })
             }
         };
-
-        // Display the parsed task
-        displayTask(parsedTask);
     }
-
-    // Function to display task in the results area
+    
+    // Render tasks in chronological order
+    function renderTasks() {
+        const taskResults = document.getElementById('nlp-task-results');
+        if (!taskResults) return;
+        
+        // Clear existing tasks
+        taskResults.innerHTML = '';
+        
+        // Sort tasks by date and time
+        const sortedTasks = [...tasks].sort((a, b) => {
+            const dateA = new Date(`${a.parsed.date}T${a.parsed.time}`);
+            const dateB = new Date(`${b.parsed.date}T${b.parsed.time}`);
+            return dateA - dateB;
+        });
+        
+        // Display tasks in chronological order
+        sortedTasks.forEach(displayTask);
+    }
+    
+    // Display a single task
     function displayTask(task) {
         const taskResults = document.getElementById('nlp-task-results');
         if (!taskResults) return;
-
+        
         const taskCard = document.createElement('div');
         taskCard.className = 'task-card';
-
+        
         const taskTitle = document.createElement('div');
         taskTitle.className = 'task-title';
         taskTitle.textContent = task.text;
-
+        
         const taskDate = document.createElement('div');
         taskDate.className = 'task-date';
-        taskDate.textContent = `${task.parsed.date} ${task.parsed.time}`;
-
+        
+        // Format the date in a more user-friendly way
+        const dateObj = new Date(`${task.parsed.date}T${task.parsed.time}`);
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        const timeFormat = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' }).format(dateObj);
+        taskDate.textContent = `${dateObj.toLocaleDateString('en-US', options)} at ${timeFormat}`;
+        
         const taskDetails = document.createElement('div');
         taskDetails.className = 'task-details';
-
+        
         // Add task type
         const typeDetail = document.createElement('span');
         typeDetail.className = 'task-detail';
         typeDetail.textContent = `Type: ${task.parsed.type}`;
         taskDetails.appendChild(typeDetail);
-
+        
         // Add priority if available
         if (task.parsed.priority) {
             const priorityDetail = document.createElement('span');
@@ -1048,7 +1093,7 @@ function initNLPTaskScheduler() {
             priorityDetail.textContent = `Priority: ${task.parsed.priority}`;
             taskDetails.appendChild(priorityDetail);
         }
-
+        
         // Add contact if available
         if (task.parsed.contact) {
             const contactDetail = document.createElement('span');
@@ -1056,7 +1101,7 @@ function initNLPTaskScheduler() {
             contactDetail.textContent = `Contact: ${task.parsed.contact}`;
             taskDetails.appendChild(contactDetail);
         }
-
+        
         // Add duration if available
         if (task.parsed.duration) {
             const durationDetail = document.createElement('span');
@@ -1064,64 +1109,44 @@ function initNLPTaskScheduler() {
             durationDetail.textContent = `Duration: ${task.parsed.duration}`;
             taskDetails.appendChild(durationDetail);
         }
-
+        
         // Assemble the task card
         taskCard.appendChild(taskTitle);
         taskCard.appendChild(taskDate);
         taskCard.appendChild(taskDetails);
-
+        
         // Add to results
-        taskResults.prepend(taskCard);
+        taskResults.appendChild(taskCard);
     }
 }
 
 // Lightbox functionality for project images
 function initLightbox() {
-    console.log('Initializing lightbox...');
-    
-    // Get all project images
-    const projectImages = document.querySelectorAll('.project-img img');
-    console.log('Found project images:', projectImages.length);
-    
-    const modal = document.getElementById('lightbox-modal');
-    const modalImg = document.getElementById('lightbox-img');
+    const images      = document.querySelectorAll('.project-img img');
+    const modal       = document.getElementById('lightbox-modal');
+    const modalImg    = document.getElementById('lightbox-img');
     const captionText = document.getElementById('lightbox-caption');
-    const closeBtn = document.querySelector('.lightbox-close');
-    
-    console.log('Lightbox elements:', {modal, modalImg, captionText, closeBtn});
-    
-    if (!modal || !modalImg || !captionText || !closeBtn) {
-        console.error('Some lightbox elements are missing!');
-        return;
-    }
-    
-    // Add click event to each project image
-    projectImages.forEach(img => {
-        console.log('Adding click to image:', img.src);
-        img.addEventListener('click', function() {
-            console.log('Image clicked, opening lightbox');
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            captionText.innerHTML = this.alt;
+    const closeBtn    = document.querySelector('.lightbox-close');
+
+    if (!modal || !modalImg || !captionText || !closeBtn) return;
+
+    images.forEach(img => {
+        img.addEventListener('click', () => {
+            modal.style.display = 'block';
+            modalImg.src        = img.src;
+            captionText.textContent = img.alt;
         });
     });
-    
-    // Close the modal when clicking the close button
-    closeBtn.addEventListener('click', function() {
-        modal.style.display = "none";
-    });
 
-    // Close the modal when clicking outside the image
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
+    closeBtn.addEventListener('click', () => (modal.style.display = 'none'));
+    modal.addEventListener('click', e => {
+        if (e.target === modal) modal.style.display = 'none';
     });
-
-    // Close the modal with Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape" && modal.style.display === "block") {
-            modal.style.display = "none";
-        }
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') modal.style.display = 'none';
     });
 }
+
+function initProjectLazyLoading() {}
+function initAccessibility()      {}
+function initContactForm()        {}

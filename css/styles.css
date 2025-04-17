@@ -194,12 +194,19 @@ body {
 
 .about-img {
     flex: 1;
-    min-width: 300px;
+    min-width: 200px; /* Reduced from 300px */
+    max-width: 250px; /* Added explicit maximum width */
     margin-right: 2rem;
+    display: flex;
+    align-items: flex-start; /* Align to top */
+    justify-content: center; /* Center horizontally */
 }
 
 .about-img img {
-    width: 100%;
+    width: 200px;      /* Reduced from 350px to 200px */
+    height: 200px;     /* Reduced from 350px to 200px */
+    object-fit: cover;
+    object-position: center top; 
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
@@ -328,6 +335,26 @@ body {
 .project-link:hover {
     background-color: var(--primary-color);
     transform: translateY(-3px);
+}
+
+.project-embed{                 /* NEW */
+    display:none;               /* hidden until “Try Demo” */
+    width:100%;
+    margin-top:1.5rem;
+}
+
+.project-card.expanded{         /* NEW */
+    grid-column:1 / -1;         /* span the full grid width */
+}
+
+
+.rowing-chart-container{        /* NEW – more room for the chart */
+    height:350px;
+}
+
+.lightbox-content{
+    max-width:95%;
+    max-height:90vh;
 }
 
 /* Skills Section */
