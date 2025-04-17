@@ -28,6 +28,10 @@ function initNavigation() {
 
 // Project embed functionality
 function initProjectEmbeds() {
+    console.log("Project embeds initializing...");
+    const allEmbeds = document.querySelectorAll('.project-embed');
+    console.log("Found project embeds:", allEmbeds.length);
+
     // Tab switching functionality
     const tabs = document.querySelectorAll('.embed-tab');
 
@@ -888,12 +892,6 @@ function initGreekConjugator() {
         if (nextButton) {
             nextButton.style.display = 'block';
         }
-    }
-
-    // Set up next button
-    const nextButton = document.getElementById('greek-next-btn');
-    if (nextButton) {
-        nextButton.addEventListener('click', nextQuestion);
     }
 }
 
