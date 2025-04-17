@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initProjectLazyLoading();
     initAccessibility();
     initContactForm();
+    initLightbox(); 
 });
 
 // Navigation functionality
@@ -76,12 +77,15 @@ function initProjectEmbeds() {
     projectLinks.forEach(link => {
         link.addEventListener('click', function (e) {
             e.preventDefault();
+            console.log('Demo link clicked:', this.getAttribute('href'));
 
             const targetId = this.getAttribute('href');
             const targetEmbed = document.querySelector(targetId);
-
+            
+            console.log('Found target element:', targetEmbed);
+            
             if (targetEmbed) {
-                // Show the embed
+                console.log('Setting display to block');
                 targetEmbed.style.display = 'block';
 
                 // Scroll to it
@@ -1071,4 +1075,55 @@ function initNLPTaskScheduler() {
         // Add to results
         taskResults.prepend(taskCard);
     }
+}
+
+// Lightbox functionality for project images
+function initLightbox() {
+    console.log('Initializing lightbox...');
+    
+    // Get all project images
+    const projectImages = document.querySelectorAll('.project-img img');
+    console.log('Found project images:', projectImages.length);
+    
+    const modal = document.getElementById('lightbox-modal');
+    const modalImg = document.getElementById('lightbox-img');
+    const captionText = document.getElementById('lightbox-caption');
+    const closeBtn = document.querySelector('.lightbox-close');
+    
+    console.log('Lightbox elements:', {modal, modalImg, captionText, closeBtn});
+    
+    if (!modal || !modalImg || !captionText || !closeBtn) {
+        console.error('Some lightbox elements are missing!');
+        return;
+    }
+    
+    // Add click event to each project image
+    projectImages.forEach(img => {
+        console.log('Adding click to image:', img.src);
+        img.addEventListener('click', function() {
+            console.log('Image clicked, opening lightbox');
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        });
+    });
+    
+    // Close the modal when clicking the close button
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = "none";
+    });
+
+    // Close the modal when clicking outside the image
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // Close the modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape" && modal.style.display === "block") {
+            modal.style.display = "none";
+        }
+    });
 }
