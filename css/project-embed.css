@@ -8,10 +8,21 @@
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     background-color: white;
+    /* Limit max height to prevent taking over the entire screen */
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .project-card:target .project-embed {
     display: block;
+}
+
+/* For expanded cards, apply a maximum width instead of full grid span */
+.project-card.expanded {
+    grid-column: 1 / -1;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .embed-header {
@@ -21,6 +32,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative; /* Needed for absolute positioning of close button */
 }
 
 .embed-title {
@@ -50,6 +62,26 @@
 
 .embed-control-btn:hover {
     background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* NEW: Close button for embeds */
+.embed-close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.embed-close-btn:hover {
+    color: white;
 }
 
 .embed-tabs {

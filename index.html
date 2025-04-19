@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"="width=device-width, initial-scale=1.0">
     <title>Patrick Reilly | Portfolio</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/project-embed.css">
@@ -92,6 +92,7 @@
                             <button class="embed-control-btn" aria-label="Help information">?</button>
 
                         </div>
+                        <button class="embed-close-btn" aria-label="Close demo">&times;</button> <!-- ADDED -->
                     </div>
                     <div class="embed-tabs" role="tablist">
                         <div class="embed-tab active" role="tab" aria-selected="true" aria-controls="rowing-visualization" tabindex="0" data-target="rowing-visualization">Visualization</div>
@@ -170,6 +171,7 @@
                         <div class="embed-controls">
                             <button class="embed-control-btn" aria-label="Help information">?</button>
                         </div>
+                        <button class="embed-close-btn" aria-label="Close demo">&times;</button> <!-- ADDED -->
                     </div>
                     <div class="embed-tabs">
                         <div class="embed-tab active" role="tab" aria-selected="true" aria-controls="nlp-demo" tabindex="0" data-target="nlp-demo">Demo</div>
@@ -224,6 +226,7 @@
                         <div class="embed-controls">
                             <button class="embed-control-btn" aria-label="Help information">?</button>
                         </div>
+                        <button class="embed-close-btn" aria-label="Close demo">&times;</button> <!-- ADDED -->
                     </div>
                     <div class="embed-tabs">
                         <div class="embed-tab active" role="tab" aria-selected="true" aria-controls="greek-practice" tabindex="0" data-target="greek-practice">Practice</div>
@@ -283,6 +286,278 @@
                             <li><strong>διαβάζω</strong> (to read)</li>
                             <li><strong>γράφω</strong> (to write)</li>
                             <li><strong>τρώω</strong> (to eat)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: CoffeeConnect -->
+            <div class="project-card" id="coffee-connect">
+                <div class="project-img">
+                    <img src="images/projects/coffee-connect/dashboard.png" alt="CoffeeConnect Coffee Analytics Dashboard">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">CoffeeConnect</h3>
+                    <p class="project-description">A social coffee tracking platform that helps users log, analyze, and improve their coffee brewing techniques with detailed analytics and community features.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Django</span>
+                        <span class="project-tag">PostgreSQL</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                        <span class="project-tag">Chart.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#coffee-connect-embed" class="project-link">Try Demo</a>
+                        <a href="https://github.com/your-username/coffeeconnect" target="_blank" class="project-link">GitHub</a>
+                    </div>
+                </div>
+                
+                <!-- CoffeeConnect Embed -->
+                <div class="project-embed" id="coffee-connect-embed">
+                    <div class="embed-header">
+                        <h4 class="embed-title">CoffeeConnect Dashboard</h4>
+                        <div class="embed-controls">
+                            <button class="embed-control-btn" aria-label="Help information">?</button>
+                        </div>
+                        <button class="embed-close-btn" aria-label="Close demo">&times;</button> <!-- ADDED -->
+                    </div>
+                    <div class="embed-tabs" role="tablist">
+                        <div class="embed-tab active" role="tab" aria-selected="true" aria-controls="coffee-dashboard" tabindex="0" data-target="coffee-dashboard">Dashboard</div>
+                        <div class="embed-tab" role="tab" aria-selected="false" aria-controls="coffee-log" tabindex="0" data-target="coffee-log">Log Coffee</div>
+                        <!-- REMOVED Analytics Tab -->
+                        <div class="embed-tab" role="tab" aria-selected="false" aria-controls="coffee-grinder" tabindex="0" data-target="coffee-grinder">Grinders</div>
+                        <div class="embed-tab" role="tab" aria-selected="false" aria-controls="coffee-recipes" tabindex="0" data-target="coffee-recipes">Recipes</div>
+                        <div class="embed-tab" role="tab" aria-selected="false" aria-controls="coffee-info" tabindex="0" data-target="coffee-info">Info</div>
+                    </div>
+
+                    <!-- Dashboard Panel -->
+                    <div class="embed-panel coffee-dashboard active" role="tabpanel" id="coffee-dashboard" aria-labelledby="tab-coffee-dashboard">
+                        <div class="bg-cream p-4 rounded-md">
+                            <h4 class="text-lg font-semibold mb-4 text-espresso">Dashboard Overview</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                                    <div class="text-3xl font-bold text-espresso" id="coffee-total-logs">0</div> <!-- ADDED ID -->
+                                    <div class="text-sm text-gray-500">Total Coffees Logged</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                                    <div class="text-3xl font-bold text-espresso" id="coffee-avg-rating">N/A</div> <!-- ADDED ID -->
+                                    <div class="text-sm text-gray-500">Average Rating</div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                                    <div class="text-xl font-semibold text-espresso mt-1" id="coffee-fav-method">None</div> <!-- ADDED ID -->
+                                    <div class="text-sm text-gray-500">Favorite Method</div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div class="bg-white p-4 rounded-lg shadow-md">
+                                    <h5 class="text-md font-semibold mb-3 text-center">Brewing Methods</h5>
+                                    <div style="height: 250px; position: relative;">
+                                        <canvas id="coffee-methods-chart"></canvas> <!-- Existing ID -->
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-md">
+                                     <h5 class="text-md font-semibold mb-3">Recent Logs</h5>
+                                     <div class="space-y-3 max-h-60 overflow-y-auto pr-2" id="coffee-recent-logs"> <!-- ADDED ID -->
+                                        <!-- Logs will be added here by JS -->
+                                        <p class="text-sm text-gray-500 italic">Log your first coffee!</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="text-center mt-6">
+                                 <button class="btn" onclick="document.querySelector('[data-target=coffee-log]').click()">Log New Coffee</button>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Log Coffee Panel -->
+                    <div class="embed-panel coffee-log" role="tabpanel" id="coffee-log" aria-labelledby="tab-coffee-log">
+                        <div class="bg-cream p-4 rounded-md">
+                            <h4 class="text-lg font-semibold mb-4 text-espresso">Log New Coffee</h4>
+                            <form id="coffee-log-form">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="coffee-form-group">
+                                        <label for="coffee-name" class="coffee-label">Coffee Name/Blend</label>
+                                        <input type="text" id="coffee-name" class="coffee-input" placeholder="e.g., Ethiopia Yirgacheffe" required>
+                                    </div>
+                                    <div class="coffee-form-group">
+                                        <label for="coffee-method" class="coffee-label">Brewing Method</label>
+                                        <select id="coffee-method" class="coffee-select" required>
+                                            <option value="">Select Method</option>
+                                            <option value="espresso">Espresso</option>
+                                            <option value="pour-over">Pour Over</option>
+                                            <option value="french-press">French Press</option>
+                                            <option value="aeropress">Aeropress</option>
+                                            <option value="drip">Drip</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                 <h5 class="text-md font-semibold mt-4 mb-2 text-espresso">Brewing Parameters</h5>
+                                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                     <div class="coffee-form-group">
+                                        <label for="coffee-grind" class="coffee-label">Grind Size</label>
+                                        <input type="text" id="coffee-grind" class="coffee-input" placeholder="e.g., 18 clicks">
+                                    </div>
+                                     <div class="coffee-form-group">
+                                        <label for="coffee-dose" class="coffee-label">Dose (g)</label>
+                                        <input type="number" step="0.1" id="coffee-dose" class="coffee-input" placeholder="e.g., 18.5">
+                                    </div>
+                                     <div class="coffee-form-group">
+                                        <label for="coffee-yield" class="coffee-label">Yield (g)</label>
+                                        <input type="number" step="0.1" id="coffee-yield" class="coffee-input" placeholder="e.g., 36.0">
+                                    </div>
+                                     <div class="coffee-form-group">
+                                        <label for="coffee-time" class="coffee-label">Time (s)</label>
+                                        <input type="number" id="coffee-time" class="coffee-input" placeholder="e.g., 28">
+                                    </div>
+                                     <div class="coffee-form-group">
+                                        <label for="coffee-temp" class="coffee-label">Temp (°C/°F)</label>
+                                        <input type="text" id="coffee-temp" class="coffee-input" placeholder="e.g., 94°C">
+                                    </div>
+                                 </div>
+                                 <h5 class="text-md font-semibold mt-4 mb-2 text-espresso">Rating & Notes</h5>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="coffee-form-group">
+                                        <label class="coffee-label">Rating</label>
+                                        <div class="coffee-rating" data-rating="0"> <!-- ADDED data-rating attribute -->
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+                                    </div>
+                                     <div class="coffee-form-group">
+                                        <label for="coffee-notes" class="coffee-label">Tasting Notes</label>
+                                        <textarea id="coffee-notes" class="coffee-textarea" placeholder="e.g., Bright acidity, floral notes, clean finish..."></textarea>
+                                    </div>
+                                 </div>
+                                 <div class="coffee-form-group">
+                                     <label for="coffee-image" class="coffee-label">Upload Image (Optional)</label>
+                                     <input type="file" id="coffee-image" class="coffee-input">
+                                 </div>
+                                 <div id="coffee-log-feedback" style="display: none; margin-bottom: 1rem;"></div>
+                                 <div class="text-right mt-4">
+                                    <button type="submit" class="btn">Save Log</button>
+                                 </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Grinder Management Panel -->
+                    <div class="embed-panel coffee-grinder" role="tabpanel" id="coffee-grinder" aria-labelledby="tab-coffee-grinder">
+                         <div class="bg-cream p-4 rounded-md">
+                            <h4 class="text-lg font-semibold mb-4 text-espresso">Grinder Management</h4>
+                            <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+                                <h5 class="text-md font-semibold mb-3">Your Grinders</h5>
+                                <div class="divide-y divide-gray-100">
+                                    <!-- Grinder 1 -->
+                                    <div class="py-3 flex flex-wrap justify-between items-center gap-2">
+                                        <div>
+                                            <h6 class="font-semibold">Baratza Encore</h6>
+                                            <p class="text-sm text-gray-600">Range: 1 - 40, Step: 1.0</p>
+                                            <span class="inline-block text-xs bg-green-100 text-green-800 px-2 py-1 rounded mt-1">Default</span>
+                                        </div>
+                                        <div class="space-x-2 flex-shrink-0">
+                                            <button class="inline-block px-3 py-1 text-xs border border-red-300 text-red-500 rounded hover:bg-red-500 hover:text-white transition">Delete</button>
+                                        </div>
+                                    </div>
+                                    <!-- Grinder 2 -->
+                                    <div class="py-3 flex flex-wrap justify-between items-center gap-2">
+                                        <div>
+                                            <h6 class="font-semibold">Comandante C40</h6>
+                                            <p class="text-sm text-gray-600">Range: 1 - 50 clicks, Step: 1 click</p>
+                                        </div>
+                                         <div class="space-x-2 flex-shrink-0">
+                                            <button class="inline-block px-3 py-1 text-xs border border-red-300 text-red-500 rounded hover:bg-red-500 hover:text-white transition">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-md">
+                                <h5 class="text-md font-semibold mb-3">Optimal Grind Sizes (Based on Your Ratings)</h5>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center p-2 bg-gray-50 rounded-md">
+                                        <div class="text-sm font-medium">Espresso (Baratza Encore)</div>
+                                        <div class="font-medium text-sm">
+                                            Setting: 4
+                                            <span class="ml-1 text-xs text-gray-500">(avg for 4.5★+)</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center p-2 bg-gray-50 rounded-md">
+                                        <div class="text-sm font-medium">Pour Over (Comandante C40)</div>
+                                        <div class="font-medium text-sm">
+                                            Clicks: 22
+                                            <span class="ml-1 text-xs text-gray-500">(avg for 4.0★+)</span>
+                                        </div>
+                                    </div>
+                                     <div class="flex justify-between items-center p-2 bg-gray-50 rounded-md">
+                                        <div class="text-sm font-medium">French Press (Baratza Encore)</div>
+                                        <div class="font-medium text-sm">
+                                            Setting: 28
+                                            <span class="ml-1 text-xs text-gray-500">(avg for 3.5★+)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipes Panel (Placeholder) -->
+                    <div class="embed-panel coffee-recipes" role="tabpanel" id="coffee-recipes" aria-labelledby="tab-coffee-recipes">
+                         <div class="bg-cream p-4 rounded-md">
+                            <h4 class="text-lg font-semibold mb-4 text-espresso">Saved Recipes</h4>
+                             <p class="text-gray-600 mb-4">Your favorite brewing recipes for quick access.</p>
+                             <div class="space-y-4">
+                                 <!-- Recipe 1 -->
+                                 <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-latte">
+                                     <div class="flex justify-between items-start mb-2">
+                                        <h5 class="text-md font-semibold">Perfect Espresso Shot</h5>
+                                        <span class="text-yellow-400 font-bold">4.8 ★</span>
+                                     </div>
+                                     <p class="text-sm text-gray-600 mb-2">Method: Espresso | Grinder: Baratza Encore</p>
+                                     <div class="text-xs grid grid-cols-2 gap-1 bg-gray-50 p-2 rounded">
+                                         <span>Grind: 4</span>
+                                         <span>Dose: 18.5g</span>
+                                         <span>Yield: 36g</span>
+                                         <span>Time: 27s</span>
+                                         <span>Temp: 94°C</span>
+                                     </div>
+                                     <div class="mt-3 text-right space-x-2">
+                                         <button class="inline-block px-3 py-1 text-xs border border-latte text-latte rounded hover:bg-latte hover:text-white transition">Use Recipe</button>
+                                         <button class="inline-block px-3 py-1 text-xs border border-gray-300 text-gray-500 rounded hover:bg-gray-500 hover:text-white transition">Edit</button>
+                                     </div>
+                                 </div>
+                                 <!-- Recipe 2 -->
+                                 <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-latte">
+                                     <div class="flex justify-between items-start mb-2">
+                                        <h5 class="text-md font-semibold">Morning Pour Over</h5>
+                                         <span class="text-yellow-400 font-bold">4.5 ★</span>
+                                     </div>
+                                     <p class="text-sm text-gray-600 mb-2">Method: Pour Over | Grinder: Comandante C40</p>
+                                     <div class="text-xs grid grid-cols-2 gap-1 bg-gray-50 p-2 rounded">
+                                         <span>Grind: 22 clicks</span>
+                                         <span>Dose: 20g</span>
+                                         <span>Water: 320g</span>
+                                         <span>Time: 180s</span>
+                                         <span>Temp: 96°C</span>
+                                     </div>
+                                     <div class="mt-3 text-right space-x-2">
+                                         <button class="inline-block px-3 py-1 text-xs border border-latte text-latte rounded hover:bg-latte hover:text-white transition">Use Recipe</button>
+                                         <button class="inline-block px-3 py-1 text-xs border border-gray-300 text-gray-500 rounded hover:bg-gray-500 hover:text-white transition">Edit</button>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Info Panel -->
+                    <div class="embed-panel coffee-info" role="tabpanel" id="coffee-info" aria-labelledby="tab-coffee-info">
+                        <h4 class="text-lg font-semibold mb-2">About CoffeeConnect</h4>
+                        <p class="mb-4">CoffeeConnect is a demo application that lets you log and review your coffee brews, manage your grinders, and save your favorite recipes.</p>
+
+                        <h5 class="font-medium mb-1">Key Features:</h5>
+                        <ul class="list-disc pl-5 mb-4 space-y-1 text-sm">
+                            <li><strong>Log Coffee:</strong> Record parameters like grind size, temperature, dose, yield, and time.</li>
+                            <li><strong>Dashboard Overview:</strong> View total logs, average rating, and favorite brewing method.</li>
+                            <li><strong>Grinder Management:</strong> View and delete your grinders.</li>
+                            <li><strong>Recipe Storage:</strong> Save and reuse your favorite brewing recipes.</li>
                         </ul>
                     </div>
                 </div>
@@ -476,28 +751,7 @@
             
             <!-- Projects Section (Resume Version) -->
             <div class="resume-section-title">Project Experience</div>
-            
-            <div class="resume-item">
-                <h3 class="resume-item-title">CoffeeConnect - Social Coffee Tracking Platform</h3>
-                <div class="resume-item-subtitle">
-                    <span>Personal Project</span>
-                    <span class="resume-date">November 2024 - January 2025</span>
-                </div>
-                <div class="resume-item-content">
-                    <ul>
-                        <li>Engineered a full-stack web application with Python/Django and PostgreSQL, incorporating geospatial data handling through OpenStreetMap API for interactive activity mapping.</li>
-                        <li>Developed and deployed the platform on Azure App Service using CI/CD pipelines via GitHub Actions, integrating user authentication, real-time activity feeds, and responsive front-end design with Tailwind CSS and JavaScript.</li>
-                    </ul>
-                    <div class="keywords">
-                        <span class="keyword">Python</span>
-                        <span class="keyword">Django</span>
-                        <span class="keyword">PostgreSQL</span>
-                        <span class="keyword">Azure</span>
-                        <span class="keyword">Tailwind CSS</span>
-                    </div>
-                </div>
-            </div>
-            
+
             <div class="resume-item">
                 <h3 class="resume-item-title">Rowing Data Analytics Project</h3>
                 <div class="resume-item-subtitle">
@@ -517,7 +771,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="resume-item">
                 <h3 class="resume-item-title">Natural Language Task Scheduler Project</h3>
                 <div class="resume-item-subtitle">
@@ -538,29 +792,51 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="resume-item">
-                <h3 class="resume-item-title">Functional Programming Projects</h3>
+                <h3 class="resume-item-title">CoffeeConnect - A Coffee Analytics & Brewing Optimization Platform</h3>
                 <div class="resume-item-subtitle">
-                    <span>Academic Project</span>
-                    <span class="resume-date">January 2024 - May 2024</span>
+                    <span>Personal Project</span>
+                    <span class="resume-date">February 2024 - Present</span>
                 </div>
                 <div class="resume-item-content">
                     <ul>
-                        <li>Implemented an OCaml-based table-driven data structure to process and analyze large CSV datasets, improving query speed by 25%.</li>
-                        <li>Co-developed a terminal-based library management system in OCaml, leading UI design and backend integration, resulting in a 40% reduction in data retrieval times.</li>
+                        <li>Engineered a full-stack Django/PostgreSQL application that analyzes brew parameters and provides personalized recommendations.</li>
+                        <li>Implemented an interactive dashboard with Chart.js visualizations that track 15+ brewing metrics, helping users optimize their grind settings and brewing ratios based on a statistical analysis of their highest-rated coffees.</li>
                     </ul>
                     <div class="keywords">
-                        <span class="keyword">OCaml</span>
-                        <span class="keyword">Functional Programming</span>
-                        <span class="keyword">Data Structures</span>
+                        <span class="keyword">Python</span>
+                        <span class="keyword">Django</span>
+                        <span class="keyword">PostgreSQL</span>
+                        <span class="keyword">Chart.js</span>
+                        <span class="keyword">Tailwind CSS</span>
                     </div>
                 </div>
             </div>
-            
+
+            <div class="resume-item">
+                <h3 class="resume-item-title">Greek Conjugator - Interactive Greek Language Learning Tool</h3>
+                <div class="resume-item-subtitle">
+                    <span>Personal Project</span>
+                    <span class="resume-date">March 2025 - Present</span>
+                </div>
+                <div class="resume-item-content">
+                    <ul>
+                        <li>Developed a comprehensive Modern Greek verb training application with multiple conjugation practice modes, personally improving my conjugation accuracy by 40% after two weeks of regular practice.</li>
+                        <li>Created an adaptive learning algorithm to identify users' weak points and concentrate practice on problematic verb forms, reducing learning time compared to traditional memorization techniques.</li>
+                    </ul>
+                    <div class="keywords">
+                        <span class="keyword">JavaScript</span>
+                        <span class="keyword">HTML</span>
+                        <span class="keyword">CSS</span>
+                        <span class="keyword">Adaptive Learning</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Technical Skills Section -->
             <div class="resume-section-title">Technical Skills</div>
-            
+
             <div class="resume-item">
                 <div class="resume-item-content" style="margin-top: 0;">
                     <ul>
@@ -570,7 +846,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <!-- Extracurricular Activities Section -->
             <div class="resume-section-title">Extracurricular Activities</div>
             
@@ -604,7 +880,7 @@
             <div class="resume-item">
                 <div class="resume-item-content" style="margin-top: 0;">
                     <ul>
-                        <li><strong>Language Skills:</strong> Proficient in Spanish, Intermediate Portuguese</li>
+                        <li><strong>Language Skills:</strong> Proficient in Spanish, Intermediate Portuguese, Elementary Modern Greek</li>
                         <li><strong>Interests:</strong> Solving New York Times crossword puzzles, restoring and modifying Cars, making espresso, and learning languages.</li>
                     </ul>
                 </div>
@@ -683,6 +959,7 @@
         <span class="lightbox-close">&times;</span>
         <img class="lightbox-content" id="lightbox-img">
         <div id="lightbox-caption"></div>
+        <!-- New zoom controls are added via JavaScript -->
     </div>
 
     <!-- Scripts -->
